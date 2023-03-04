@@ -32,6 +32,57 @@ class ButtonArrowPointsEmptyState extends State<ButtonArrowPointsEmpty>{
   ButtonArrowPointsEmptyState({required this.keyBAP});
 
   @override
+  void initState() {
+    String textbuttonSup = "-";
+    switch (value)
+    {
+      case -1:
+        textbuttonSup = "-";
+        break;
+      case 0:
+        textbuttonSup = "0";
+        break;
+      case 1:
+        textbuttonSup = "1";
+        break;
+      case 2:
+        textbuttonSup = "2";
+        break;
+      case 3:
+        textbuttonSup = "3";
+        break;
+      case 4:
+        textbuttonSup = "4";
+        break;
+      case 5:
+        textbuttonSup = "5";
+        break;
+      case 6:
+        textbuttonSup = "6";
+        break;
+      case 7:
+        textbuttonSup = "7";
+        break;
+      case 8:
+        textbuttonSup = "8";
+        break;
+      case 9:
+        textbuttonSup = "9";
+        break;
+      case 10:
+        textbuttonSup = "10";
+        break;
+      case 11:
+        textbuttonSup = "X";
+        break;
+    }
+    setState(() {
+      textbutton = textbuttonSup;
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Padding(

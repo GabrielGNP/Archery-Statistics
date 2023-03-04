@@ -1,32 +1,31 @@
-import 'package:archery_statistics/models/TrainingSesion.dart';
 import 'package:flutter/material.dart';
 import 'package:archery_statistics/models/dataShotsRounds.dart';
-
+import 'package:archery_statistics/models/widgetRound.dart';
 
 
 class ButtonArrowPoints extends StatefulWidget{
+  WidgetRound widgetRound;
   DataShotsRounds dataShotsRound;
-  TrainingSesion trainingSesion;
 
-  ButtonArrowPoints({required this.dataShotsRound, required this.trainingSesion});
+  ButtonArrowPoints({required this.dataShotsRound, required this.widgetRound});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return ButtonArrowPointsState(keyBAP: dataShotsRound.key,value: dataShotsRound.value, textbutton: dataShotsRound.value.toString());
+    return ButtonArrowPointsState(keyBAP: dataShotsRound.key,value: dataShotsRound.value, disabled: dataShotsRound.disabled);
   }
 
 }
 
 class ButtonArrowPointsState extends State<ButtonArrowPoints>{
 
-  GlobalKey keyBAP = GlobalKey();
+  GlobalKey keyBAP;
   bool disabled = true;
   String textbutton = "-";
   int value = -1;
   Color colorText = Color(0xff869d71);
 
-  ButtonArrowPointsState ({required this.keyBAP, required this.textbutton, required this.value});
+  ButtonArrowPointsState ({required this.keyBAP, required this.value, required this.disabled});
 
   @override
   void initState() {
@@ -73,8 +72,15 @@ class ButtonArrowPointsState extends State<ButtonArrowPoints>{
         textbuttonSup = "X";
         break;
     }
+    Color colorSuport;
+    if(disabled){
+      colorSuport = Color(0xff869d71);
+    }else{
+      colorSuport = Color(0xff5cda16);
+    }
     setState(() {
       textbutton = textbuttonSup;
+      colorText = colorSuport;
     });
     super.initState();
   }
@@ -108,24 +114,12 @@ class ButtonArrowPointsState extends State<ButtonArrowPoints>{
             if(disabled){
               disabled = false;
               colorSuport = Color(0xff5cda16);
-              dataShotsRounds.forEach((dataRound) {
-                dataRound.forEach((dataShot) {
-                  if(dataShot.key == widget.dataShotsRound.key){
-                    dataShot.disabled = false;
-                  }
-                });
-              });
+              widget.dataShotsRound.disabled = false;
 
             }else{
               disabled = true;
               colorSuport = Color(0xff869d71);
-              dataShotsRounds.forEach((dataRound) {
-                dataRound.forEach((dataShot) {
-                  if(dataShot.key == widget.dataShotsRound.key){
-                    dataShot.disabled = true;
-                  }
-                });
-              });
+              widget.dataShotsRound.disabled = true;
             }
             setState(() {
               colorText = colorSuport;
@@ -180,25 +174,12 @@ class ButtonArrowPointsState extends State<ButtonArrowPoints>{
                   iconButtonSut = "X";
                   break;
               }
-              dataShotsRounds.forEach((dataRound) {
-                dataRound.forEach((dataShot) {
-                  if(dataShot.key == keyBAP){
-                    dataShot.value = value;
-                  }
-                  print("dataShot.key: ${dataShot.key} | keyBAP: $keyBAP");
-                });
-              });
-              List<List<int>> ints = [];
-              dataShotsRounds.forEach((element) {
-                List<int> ints2 = [];
-                element.forEach((element) {
-                  ints2.add(element.value);
-                });
-                ints.add(ints2);
-              });
-              widget.trainingSesion.round = ints;
-              print("ints: ${ints}");
-              print("sesion: ${widget.trainingSesion.round}");
+              widget.dataShotsRound.value = value;
+              widget.widgetRound.valuesInRound[widget.widgetRound.dataRound.indexOf(widget.dataShotsRound)] = value;
+
+              print("value: ${value}");
+              print("widget.dataShotsRound.value: ${widget.dataShotsRound.value}");
+              print("widget.widgetRound.valuesInRound: ${widget.widgetRound.valuesInRound}");
 
               setState(() {
                 textbutton = iconButtonSut;

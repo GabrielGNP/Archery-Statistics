@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:archery_statistics/models/dataShotsRounds.dart';
 
 import '../models/TrainingSesion.dart';
+import '../models/widgetRound.dart';
 
 class ButtonArrowHits extends StatefulWidget{
+  WidgetRound widgetRound;
   DataShotsRounds dataShotsRound;
-  TrainingSesion trainingSesion;
 
-  ButtonArrowHits({required this.dataShotsRound, required this.trainingSesion});
+  ButtonArrowHits({required this.dataShotsRound, required this.widgetRound});
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return ButtonArrowHitsState(keyBAP: dataShotsRound.key,value: dataShotsRound.value, textbutton: dataShotsRound.value.toString());
+    return ButtonArrowHitsState(keyBAP: dataShotsRound.key,value: dataShotsRound.value, disabled: dataShotsRound.disabled);
   }
 
 }
@@ -21,7 +22,6 @@ class ButtonArrowHitsState extends State<ButtonArrowHits>{
 
   GlobalKey keyBAP = GlobalKey();
   bool disabled = true;
-  String textbutton = "-";
   IconData iconButton = Icons.circle_outlined;
   /*Icons.circle_outlined;
   Icons.cancel_outlined;
@@ -45,6 +45,8 @@ class ButtonArrowHitsState extends State<ButtonArrowHits>{
   int value = -1;
   Color colorText = Color(0xff869d71);
 
+  ButtonArrowHitsState ({required this.keyBAP, required this.disabled, required this.value});
+
   @override
   initState(){
     IconData iconButtonSut = Icons.circle_outlined;
@@ -65,13 +67,20 @@ class ButtonArrowHitsState extends State<ButtonArrowHits>{
         iconButtonSut = Icons.check_circle_outline;
         break;
     }
+    Color colorSuport;
+    if(disabled){
+      colorSuport = Color(0xff869d71);
+    }else{
+      colorSuport = Color(0xff5cda16);
+    }
 
     setState(() {
       iconButton = iconButtonSut;
+      colorText = colorSuport;
     });
+    super.initState();
   }
 
-  ButtonArrowHitsState ({required this.keyBAP, required this.textbutton, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -149,24 +158,13 @@ class ButtonArrowHitsState extends State<ButtonArrowHits>{
                   iconButtonSut = Icons.check_circle_outline;
                   break;
               }
-              dataShotsRounds.forEach((dataRound) {
-                dataRound.forEach((dataShot) {
-                  if(dataShot.key == keyBAP){
-                    dataShot.value = value;
-                  }
-                });
-              });
-              List<List<int>> ints = [];
-              dataShotsRounds.forEach((element) {
-                List<int> ints2 = [];
-                element.forEach((element) {
-                  ints2.add(element.value);
-                });
-                ints.add(ints2);
-              });
-              widget.trainingSesion.round = ints;
-              print("ints: ${ints}");
-              print("sesion: ${widget.trainingSesion.round}");
+              widget.dataShotsRound.value = value;
+              widget.widgetRound.valuesInRound[widget.widgetRound.dataRound.indexOf(widget.dataShotsRound)] = value;
+
+              print("value: ${value}");
+              print("widget.dataShotsRound.value: ${widget.dataShotsRound.value}");
+              print("widget.widgetRound.valuesInRound: ${widget.widgetRound.valuesInRound}");
+
               setState(() {
                 iconButton = iconButtonSut;
               });
