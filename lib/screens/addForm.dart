@@ -98,145 +98,148 @@ class _AddForm extends State<AddForm> {
         ),
         title: Text(""),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      Row(children: [
-                        Container(
-                          height: 75.0,
-                          padding: EdgeInsets.all(10.0),
-                          width: 170.0,
-                          child: TextFormField(
-                            keyboardType: TextInputType.datetime,
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(),
-                              labelText: 'Day',
-                              labelStyle: TextStyle(
-                                fontSize: 15.0,
-                                color: Color.fromARGB(255, 135, 135, 135)
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        Row(children: [
+                          Container(
+                            height: 75.0,
+                            padding: EdgeInsets.all(10.0),
+                            width: 170.0,
+                            child: TextFormField(
+                              keyboardType: TextInputType.datetime,
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'Day',
+                                labelStyle: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Color.fromARGB(255, 135, 135, 135)
+                                ),
                               ),
-                            ),
-                            initialValue: dateToString(date),
-                            onChanged: (value){
-                              print(value);
-                              date = stringToDate(value);
+                              initialValue: dateToString(date),
+                              onChanged: (value){
+                                print(value);
+                                date = stringToDate(value);
 
-                            },
-                          ),
-                        ),
-                        Container(
-                          height: 75.0,
-                          padding: EdgeInsets.all(10.0),
-                          width: 170.0,
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            initialValue: 3.toString(),
-                            //para aceptar solamente valores numericos
-                            //se debe importar la librería import 'package:flutter/services.dart';
-                            inputFormatters: <TextInputFormatter>[
-                              // for below version 2 use this
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'[0-9]')),
-                              // for version 2 and greater youcan also use this
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            decoration: const InputDecoration(
-                              border: UnderlineInputBorder(),
-                              labelText: 'number of arrows per round',
-                              labelStyle: TextStyle(
-                                fontSize: 15.0,
-                                color: Color.fromARGB(255, 135, 135, 135)
-                              ),
+                              },
                             ),
-                            onChanged: (value){
-                              print(value);
-                              if(int.parse(value)<1 || value == null || value==""){
-                                numberArrows = -1;
-                              }else{
-                                numberArrows = int.parse(value);
-                              }
-                            },
                           ),
-                        ),
-                      ]),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  child:  Text(
-                                    "Points counting mode",
-                                    style: TextStyle(
-                                        fontSize: 12.0,
-                                        color: Color.fromARGB(255, 135, 135, 135)
+                          Container(
+                            height: 75.0,
+                            padding: EdgeInsets.all(10.0),
+                            width: 170.0,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              initialValue: 3.toString(),
+                              //para aceptar solamente valores numericos
+                              //se debe importar la librería import 'package:flutter/services.dart';
+                              inputFormatters: <TextInputFormatter>[
+                                // for below version 2 use this
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9]')),
+                                // for version 2 and greater youcan also use this
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              decoration: const InputDecoration(
+                                border: UnderlineInputBorder(),
+                                labelText: 'number of arrows per round',
+                                labelStyle: TextStyle(
+                                  fontSize: 15.0,
+                                  color: Color.fromARGB(255, 135, 135, 135)
+                                ),
+                              ),
+                              onChanged: (value){
+                                print(value);
+                                if(int.parse(value)<1 || value == null || value==""){
+                                  numberArrows = -1;
+                                }else{
+                                  numberArrows = int.parse(value);
+                                }
+                              },
+                            ),
+                          ),
+                        ]),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                    child:  Text(
+                                      "Points counting mode",
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          color: Color.fromARGB(255, 135, 135, 135)
+                                      ),
                                     ),
                                   ),
-                                ),
-                              Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                width: 100,
-                                child: DropdownButton(
-                                  value: optionDropDown,
-                                  items: types.map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                  onChanged: (String? value) {
-                                    countingMode = value!;
-                                    setState(() {
-                                      optionDropDown = value;
-                                    });
-                                  }),)
-                            ],
-                          )
-                        ],
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Color.fromARGB(255, 92, 201, 40),
-                          shadowColor: Colors.transparent
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  width: 100,
+                                  child: DropdownButton(
+                                    value: optionDropDown,
+                                    items: types.map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                    onChanged: (String? value) {
+                                      countingMode = value!;
+                                      setState(() {
+                                        optionDropDown = value;
+                                      });
+                                    }),)
+                              ],
+                            )
+                          ],
                         ),
-                        child: Text(
-                          "crear registro",
-                          style: TextStyle(
-                            fontSize: 17.0
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 92, 201, 40),
+                            shadowColor: Colors.transparent
                           ),
-                        ),
-                        onPressed: () {
-                          if(numberArrows>0){
-                            setState(() {
-                              optionDropDown = types.first;
-                            });
-                            List<int> round = [];
-                            for(int i=0; i<numberArrows; i++){
-                              round.add(-1);
+                          child: Text(
+                            "crear registro",
+                            style: TextStyle(
+                              fontSize: 17.0
+                            ),
+                          ),
+                          onPressed: () {
+                            if(numberArrows>0){
+                              setState(() {
+                                optionDropDown = types.first;
+                              });
+                              List<int> round = [];
+                              for(int i=0; i<numberArrows; i++){
+                                round.add(-1);
+                              }
+                              TrainingSesion sesion = new TrainingSesion(date, countingMode, numberArrows, [round]);
+                              createFile("/data/user/0/com.GSmart.archery_statistics/app_flutter/infoSaves", sesion);
+                              Navigator.pop(context);
+                            }else{
+                              setState(() {
+                                infoMesage = "el número de flechas no puede ser inferior a 1";
+                              });
                             }
-                            TrainingSesion sesion = new TrainingSesion(date, countingMode, numberArrows, [round]);
-                            createFile("/data/user/0/com.GSmart.archery_statistics/app_flutter/infoSaves", sesion);
-                            Navigator.pop(context);
-                          }else{
-                            setState(() {
-                              infoMesage = "el número de flechas no puede ser inferior a 1";
-                            });
-                          }
-                        },
-                      ),
-                      Text(infoMesage),
-                    ],
-                  )),
-            )
-          ],
+                          },
+                        ),
+                        Text(infoMesage),
+                      ],
+                    )),
+              )
+            ],
+          ),
         ),
       ),
     );

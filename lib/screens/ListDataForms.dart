@@ -45,45 +45,6 @@ class _ListDataForms extends State<ListDataForms>{
             key: keyBuildDataTableSt,
             trainingSesionslist: trainingSesionsList,
           ),
-          /*Container(
-            width: 100,
-            height: 100,
-            color: Colors.red,
-          )*/
-
-          /* Table(
-            border: TableBorder.all(
-                color: Colors.black,
-                style: BorderStyle.solid,
-                width: 2),
-            children: [
-              TableRow( children: [
-                Column(children:[Text('Day', style: TextStyle(fontSize: 20.0))]),
-                Column(children:[Text('Type', style: TextStyle(fontSize: 20.0))]),
-                Column(children:[Text('Shots', style: TextStyle(fontSize: 20.0))]),
-                Column(children:[Text('Score', style: TextStyle(fontSize: 20.0))]),
-              ]),
-              TableRow( children: [
-                Column(children:[Text('07/02/2023')]),
-                Column(children:[Text('Points')]),
-                Column(children:[Text('3')]),
-                Column(children:[Text('29')]),
-              ]),
-              TableRow( children: [
-                Column(children:[Text('08/02/2023')]),
-                Column(children:[Text('Hits')]),
-                Column(children:[Text('3')]),
-                Column(children:[Text('3')]),
-              ]),
-              TableRow( children: [
-                Column(children:[Text('09/02/2023')]),
-                Column(children:[Text('Points')]),
-                Column(children:[Text('3')]),
-                Column(children:[Text('28')]),
-              ]),
-            ],
-          ),*/
-
         ],
       ),
     );

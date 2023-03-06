@@ -3,7 +3,6 @@ import 'package:archery_statistics/models/TrainingSesion.dart';
 import 'package:archery_statistics/screens/ListDataForms.dart';
 import 'package:archery_statistics/screens/addForm.dart';
 import 'package:archery_statistics/widgets/buildDataTable.dart';
-import 'package:archery_statistics/widgets/scrollableWidget.dart';
 
 import 'package:flutter/material.dart';
 
@@ -66,7 +65,20 @@ class _MyHomePageState extends State<MyHomePage> {
             ),*/
           ),
         ),
-        title: Text(widget.title),
+        title: Row(
+          children: [
+            Text(widget.title),
+            Spacer(),
+            IconButton(
+                icon: Icon(Icons.download),
+                onPressed: (){
+                  trainingSesions.forEach((trainingSesion) {
+                    saveData("/storage/emulated/0/Download",trainingSesion);
+                  });
+                  print("descargando");
+                })
+          ],
+        ),
       ),
 
       body: SingleChildScrollView(

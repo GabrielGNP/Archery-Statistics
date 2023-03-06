@@ -32,10 +32,14 @@ class BuildDataTableState extends State<BuildDataTable>{
 
   @override
   void initState() {
-    // TODO: implement initState
-    loadData();
     super.initState();
+
+    // TODO: implement initState
+    Future.delayed(Duration.zero, () {
+      this.loadData();
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,17 +49,29 @@ class BuildDataTableState extends State<BuildDataTable>{
         children: [
       ScrollableWidget(
         child: buildDataTable(),
-
         ),
       ]
     );
   }
 
   loadData() async{
+    //Crea el circularProgressIndicator
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(child: CircularProgressIndicator());
+        });
+
+
     List<TrainingSesion> auxtrainingSesions = await readFilesInTrainingSesions();
+    trainingSesions = auxtrainingSesions;
     setState(() {
       trainingSesionsList2 = auxtrainingSesions;
     });
+
+    //Elimina el CircularProgressIndicator
+    Navigator.of(context).pop();
+
   }
 
   Widget buildDataTable(){
