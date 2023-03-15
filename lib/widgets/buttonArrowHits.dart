@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:archery_statistics/models/dataShotsRounds.dart';
 
+import '../MetaData.dart';
 import '../models/TrainingSesion.dart';
 import '../models/widgetRound.dart';
 
@@ -49,6 +50,7 @@ class ButtonArrowHitsState extends State<ButtonArrowHits>{
 
   @override
   initState(){
+    bool disabled = widget.dataShotsRound.disabled;
     IconData iconButtonSut = Icons.circle_outlined;
     switch (value){
       case -1:
@@ -108,26 +110,12 @@ class ButtonArrowHitsState extends State<ButtonArrowHits>{
             if(disabled){
               disabled = false;
               colorSuport = Color(0xff5cda16);
-              dataShotsRounds.forEach((dataRound) {
-                dataRound.forEach((dataShot) {
-                  if(dataShot.key == widget.dataShotsRound.key){
-                    dataShot.disabled = false;
-                  }
-                });
-              });
+              widget.dataShotsRound.disabled = false;
 
             }else{
               disabled = true;
               colorSuport = Color(0xff869d71);
-              dataShotsRounds.forEach((dataRound) {
-                dataRound.forEach((dataShot) {
-                  if(dataShot.key == widget.dataShotsRound.key){
-                    print(dataRound.indexOf(dataShot));
-                    print(dataShotsRounds.indexOf(dataRound));
-                    dataShot.disabled = true;
-                  }
-                });
-              });
+              widget.dataShotsRound.disabled = true;
             }
             setState(() {
               colorText = colorSuport;
@@ -164,7 +152,7 @@ class ButtonArrowHitsState extends State<ButtonArrowHits>{
               print("value: ${value}");
               print("widget.dataShotsRound.value: ${widget.dataShotsRound.value}");
               print("widget.widgetRound.valuesInRound: ${widget.widgetRound.valuesInRound}");
-
+              reLoadStateDST(true);
               setState(() {
                 iconButton = iconButtonSut;
               });

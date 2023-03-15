@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.GSmart.archery_statistics">
    <application
-        android:label="archery_statistics"
+        android:label="Archery Statistics"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

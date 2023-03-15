@@ -1,8 +1,10 @@
 import 'package:archery_statistics/DataSaves/LinkedFiles.dart';
 import 'package:archery_statistics/models/TrainingSesion.dart';
+import 'package:archery_statistics/widgets/dataSesionTraining.dart';
 import 'package:archery_statistics/widgets/scrollableWidget.dart';
 import 'package:flutter/material.dart';
 
+import '../MetaData.dart';
 import '../models/dataShotsRounds.dart';
 import '../models/widgetRound.dart';
 import '../widgets/buttonArrowHits.dart';
@@ -36,12 +38,28 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
 
   _ViewTrainingSesion({ required this.sesionTraining});
 
-  reloadData(){
+  reloadData() async {
     List<Widget> listRoundsAux = [];
-    setState(() {
-      listRounds = [];
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(child: CircularProgressIndicator());
+        });
+    reLoadStateDST(true);
+      setState(() {
+        listRounds = [];
+      });
+
+
+    new Future.delayed(const Duration(milliseconds: 200), () {
+      reGenerate();
     });
 
+  }
+
+  reGenerate(){
+
+    List<Widget> listRoundsAux = [];
     int count = 0;
     rounds.forEach((round){
       count++;
@@ -156,7 +174,7 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
     setState(() {
       listRounds = listRoundsAux;
     });
-
+    Navigator.pop(context);
   }
 
   loadDataInit(TrainingSesion trainingSesion) {
@@ -294,7 +312,24 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
     Navigator.pop(context);
   }
   saveDataValues() async {
-    await saveData("/data/user/0/com.GSmart.archery_statistics/app_flutter/infoSaves", sesionTraining);
+    try{
+      await saveData("/data/user/0/com.GSmart.archery_statistics/app_flutter/infoSaves", sesionTraining);
+      reloadData();
+      _scaffoldKey.currentState?.showSnackBar(SnackBar(content: Row(
+        children: [
+          Icon(Icons.check_circle_outline, color: Colors.green,),
+          Text(" guardado"),
+        ],
+      )));
+    }catch(e){
+      print(" error en el guardado");
+      _scaffoldKey.currentState?.showSnackBar(SnackBar(content: Row(
+        children: [
+          Icon(Icons.error, color: Colors.red,),
+          Text("ERROR al guardado"),
+        ],
+      )));
+    }
   }
 
   double widthTotal = 0.0;
@@ -308,10 +343,14 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
   String iconButton = "-";
   int value = -1;
 
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Color.fromARGB(255, 236, 236, 236),
       appBar: AppBar(
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -346,15 +385,26 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
           ),
         ),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: Color.fromARGB(255, 236, 236, 236),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: listRounds,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: (MediaQuery.of(context).size.height- (MediaQuery.of(context).size.height/5)),
+                color: Color.fromARGB(255, 236, 236, 236),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: listRounds,
+                  ),
+                ),
+              ),
+              DataSesionTraining(widgetRounds: rounds, typeSesion: sesionTraining.type,),
+            ],
           ),
         ),
       ),
@@ -379,7 +429,7 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
         buttons.add(ButtonArrowHits(widgetRound: newWidgetRound, dataShotsRound: dataShot,));
       }
     });
-
+    reLoadStateDST(true);
     // agrega el botón para eliminar el row
     buttons.add(IconButton(
       icon: Icon(Icons.delete_forever), onPressed: () {
@@ -399,10 +449,13 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
 
         int pos = rounds.indexOf(newWidgetRound);
         print(newWidgetRound.valuesInRound);
+        print(pos);
         rounds.remove(newWidgetRound);
         print(sesionTraining.round);
 
         sesionTraining.round.removeAt(pos);
+        print(sesionTraining.round);
+        reLoadStateDST(true);
         reloadData();
       }
     },
@@ -433,8 +486,6 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
 
       });
 
-
-
       // agrega el botón para eliminar el row
       row.add(IconButton(
         icon: Icon(Icons.delete_forever), onPressed: () {
@@ -454,11 +505,14 @@ class _ViewTrainingSesion extends State<ViewTrainingSesion> {
 
           int pos = rounds.indexOf(round);
           print(round.valuesInRound);
+          print(pos);
           rounds.remove(round);
           print(sesionTraining.round);
 
           sesionTraining.round.removeAt(pos);
+          print(sesionTraining.round);
           reloadData();
+
         }
       },
       ));

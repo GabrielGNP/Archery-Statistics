@@ -203,7 +203,7 @@ Future<List<TrainingSesion>> readFilesInTrainingSesions() async {
     type = dataRead.replaceAll(dataRead.substring(dataRead.indexOf("¡")), "").replaceAll("type:", "");
     dataRead = dataRead.substring(dataRead.indexOf("¡")).substring(1);
 
-    rounds = int.parse(dataRead.replaceAll(dataRead.substring(dataRead.indexOf("¡")), "").replaceFirst("rounds:", ""));
+    //rounds = int.parse(dataRead.replaceAll(dataRead.substring(dataRead.indexOf("¡")), "").replaceFirst("rounds:", ""));
     dataRead = dataRead.substring(dataRead.indexOf("¡")).substring(1).replaceAll("round:", "");
     List<int> subList = <int>[];
 

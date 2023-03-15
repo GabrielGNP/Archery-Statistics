@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:archery_statistics/models/dataShotsRounds.dart';
 import 'package:archery_statistics/models/widgetRound.dart';
 
+import '../MetaData.dart';
+
 
 class ButtonArrowPoints extends StatefulWidget{
   WidgetRound widgetRound;
@@ -29,6 +31,7 @@ class ButtonArrowPointsState extends State<ButtonArrowPoints>{
 
   @override
   void initState() {
+    bool disabled = widget.dataShotsRound.disabled;
     String textbuttonSup = "-";
     switch (value)
     {
@@ -180,7 +183,7 @@ class ButtonArrowPointsState extends State<ButtonArrowPoints>{
               print("value: ${value}");
               print("widget.dataShotsRound.value: ${widget.dataShotsRound.value}");
               print("widget.widgetRound.valuesInRound: ${widget.widgetRound.valuesInRound}");
-
+              reLoadStateDST(true);
               setState(() {
                 textbutton = iconButtonSut;
               });
