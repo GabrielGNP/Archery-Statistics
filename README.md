@@ -2,5 +2,3 @@
 
 Archery Statistics
 
-## Getting Started
-
